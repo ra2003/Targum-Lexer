@@ -14,15 +14,13 @@ int32_t main(const int32_t argc, char *argv[restrict static 1])
 		struct TargumLexer lexer = targum_lexer_create_from_file(argv[1], NULL);
 		assert( targum_lexer_load_cfg_file(&lexer, "tokens.cfg") && "failed to load tokens.cfg!" );
 		const bool result = targum_lexer_generate_tokens(&lexer);
-		harbol_string_clear(&lexer.src);
 		printf("tokenization? '%s'\n", result ? "success!" : "failure!");
 		//targum_lexer_remove_comments(&lexer);
 		///*
 		FILE *restrict print_text = fopen("targum_lexer_tokens.txt", "w");
 		assert( print_text != NULL && "failed to create targum_lexer_tokens.txt!" );
-		for( uindex_t i=0; i<lexer.tokens.count; i++ ) {
-			const struct TargumTokenInfo *ti = harbol_vector_get(&lexer.tokens, i);
-			fprintf(print_text, "token info [%zu]:\n\tlexeme: '%s' | len: %zu\n\tfilename: '%s'\n\ttoken value: '%u'\n\tpos:: start: '%zu', end: '%zu', line: '%zu', col: '%zu'\n\n", i, ti->lexeme.cstr, ti->lexeme.len, ti->filename->cstr, ti->tag, ti->start, ti->end, ti->line, ti->col);
+		for( const struct TargumTokenInfo *ti = targum_lexer_advance(&lexer, true); ti != NULL && ti->tag != 0; ti = targum_lexer_advance(&lexer, true) ) {
+			fprintf(print_text, "token info:\n\tlexeme: '%s' | len: %zu\n\tfilename: '%s'\n\ttoken value: '%u'\n\tpos:: start: '%zu', end: '%zu', line: '%zu', col: '%zu'\n\n", ti->lexeme.cstr, ti->lexeme.len, ti->filename->cstr, ti->tag, ti->start, ti->end, ti->line, ti->col);
 		}
 		fclose(print_text), print_text=NULL;
 		//*/

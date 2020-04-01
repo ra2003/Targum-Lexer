@@ -48,7 +48,7 @@ struct TargumLexer {
 	struct HarbolString filename, src;
 	struct HarbolLinkMap *cfg;
 	char *iter, *line_start;
-	size_t index;
+	size_t line, index;
 	struct TargumTokenInfo *curr_tok;
 };
 ```
@@ -70,6 +70,9 @@ char pointer used to iterate the source code.
 
 ### line_start
 char pointer used to determine the column of a token.
+
+### line
+current line in the source code.
 
 ### index
 current index used to iterate the `tokens` array.
@@ -448,7 +451,7 @@ pointer to the current token managed by the lexer object.
 
 ## targum_lexer_advance
 ```c
-struct TargumTokenInfo *targum_lexer_advance(struct TargumLexer *lexer);
+struct TargumTokenInfo *targum_lexer_advance(struct TargumLexer *lexer, bool flush_tokens);
 ```
 
 ### Description
@@ -456,6 +459,7 @@ sets the current token managed by the lexer object, increment the tokens index, 
 
 ### Parameters
 * `lexer` - pointer to lexer object.
+* `flush_tokens` - boolean to clear out token array (if tokenizing limited amount of tokens at a time).
 
 ### Return Value
 pointer to the current token managed by the lexer object.

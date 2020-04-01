@@ -52,7 +52,7 @@ struct TargumLexer {
 	struct HarbolString filename, src;
 	struct HarbolLinkMap *cfg;
 	char *iter, *line_start;
-	size_t index;
+	size_t line, index;
 	struct TargumTokenInfo *curr_tok;
 };
 
@@ -76,7 +76,7 @@ TARGUM_API NO_NULL size_t targum_lexer_get_token_index(const struct TargumLexer 
 TARGUM_API NO_NULL size_t targum_lexer_get_token_count(const struct TargumLexer *lexer);
 
 TARGUM_API NO_NULL struct TargumTokenInfo *targum_lexer_get_token(const struct TargumLexer *lexer);
-TARGUM_API NO_NULL struct TargumTokenInfo *targum_lexer_advance(struct TargumLexer *lexer);
+TARGUM_API NO_NULL struct TargumTokenInfo *targum_lexer_advance(struct TargumLexer *lexer, bool flush_tokens);
 
 TARGUM_API NO_NULL void targum_lexer_reset(struct TargumLexer *lexer);
 TARGUM_API NO_NULL void targum_lexer_reset_token_index(struct TargumLexer *lexer);
