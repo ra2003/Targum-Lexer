@@ -1,0 +1,15 @@
+foo
+bar
+'foo'
+"bar"
+/** foo */
+/// bar
+0xF00
+0777.f
+0b101
+0x1.p3
+0.f
+0
+0777
+foo->bar();
+foo.bar();
